@@ -1,32 +1,50 @@
-function updateTime(){
+function updateCityTime(id,timeZone){
+    let cityElement = document.querySelector(id);
+    let timeElement = cityElement.querySelector(".time");
+    let dateElement = cityElement.querySelector(".date");
 
-    let losAngelesElement = document.querySelector("#los-angeles");
-    let losAngelesTimeElement = losAngelesElement.querySelector(".time");
-    let losAngelesDateElement = losAngelesElement.querySelector(".date");
-    let losAngelesTime = moment().tz("America/Los_Angeles")
+    let cityTime = moment().tz(timeZone);
+
+    dateElement.innerHTML = cityTime.format("MMMM Do YYYY")
+    timeElement.innerHTML = `${cityTime.format("h:mm:ss")} <span class="period">${cityTime.format("A")}</span>`;
+}
+
+function updateTime() {
+  updateCityTime("#los-angeles", "America/Los_Angeles");
+  updateCityTime("#sydney", "Australia/Sydney");
+  updateCityTime("#tokyo", "Asia/Tokyo");
+}
+
+function updateCity(event){
+    let timeZone = event.target.value;
+    if (timeZone.length === 0) {
+        return;
+    }
+    let cityName = timeZone.split("/")[1].replaceAll("_", " ");
+    let cityTime = moment().tz(timeZone);
+
+    let citiesElement = document.querySelector(".cities");
     
-    losAngelesDateElement.innerHTML =losAngelesTime.format("MMMM Do YYYY");
-    losAngelesTimeElement.innerHTML= `${losAngelesTime.format("h:mm:ss")} <span class="period">${losAngelesTime.format("A")}</span>`;
+    citiesElement.innerHTML =`
+            <div class="city">
+            <h2><span >${cityName} </span> <span class="time">${cityTime.format("h:mm:ss")}<span class="period"> ${cityTime.format("A")}</span></span></h2>
+            <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
+        </div>`;
+}
+ 
+function displayTimeZone(timezone){
+    let city = timezone.split("/").pop().replaceAll("_", " ");
     
-    
-    let sydneyElement = document.querySelector("#sydney");
-    let sydneyTimeElement = sydneyElement.querySelector(".time");
-    let sydneyDateElement = sydneyElement.querySelector(".date");
-    let sydneyTime = moment().tz("Australia/Sydney")
-    
-    sydneyDateElement.innerHTML = sydneyTime.format("MMMM Do YYYY");
-    sydneyTimeElement.innerHTML= `${sydneyTime.format("h:mm:ss")} <span class="period">${sydneyTime.format("A")}</span>`;
-    
-    let tokyoElement = document.querySelector("#tokyo");
-    let tokyoTimeElement = tokyoElement.querySelector(".time");
-    let tokyoDateElement = tokyoElement.querySelector(".date");
-    let tokyoTime = moment().tz("Asia/Tokyo");
-    
-    tokyoDateElement.innerHTML = tokyoTime.format("MMMM Do YYYY");
-    tokyoTimeElement.innerHTML = `${tokyoTime.format("h:mm:ss")} <span class="period">${tokyoTime.format("A")}</span>`;
-}    
+    selectElement.innerHTML +=`
+    <option value ="${timezone}">${city}</option>`;
+}
+
+let selectElement = document.querySelector("#city-select");
+selectElement.addEventListener("change", updateCity);
+
+let timezones = Intl.supportedValuesOf("timeZone");
+timezones.forEach(displayTimeZone);
+
 updateTime();
 setInterval(updateTime, 1000);
-
-
 
