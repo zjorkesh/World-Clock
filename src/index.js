@@ -17,6 +17,9 @@ function updateTime() {
 
 function updateCity(event){
     let timeZone = event.target.value;
+    if (timeZone==='current'){
+        timeZone = moment.tz.guess();
+    }
     if (timeZone.length === 0) {
         return;
     }
@@ -33,10 +36,9 @@ function updateCity(event){
 }
  
 function displayTimeZone(timezone){
-    let city = timezone.split("/").pop().replaceAll("_", " ");
-    
+
     selectElement.innerHTML +=`
-    <option value ="${timezone}">${city}</option>`;
+    <option value ="${timezone}">${timezone}</option>`;
 }
 
 let selectElement = document.querySelector("#city-select");
