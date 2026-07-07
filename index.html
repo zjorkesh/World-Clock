@@ -1,48 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="src/style.css">
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/style.css" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.6.1/moment-timezone-with-data-1970-2030.min.js
 "></script>
     <title>World Clock - Zeinab Jorkesh</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-    <h1>
-        World Clock 🕛
-    </h1>
-    <div class="select">
+      <header>
+        <h1>World Clock 🕛</h1>
+      </header>
+      <div class="search">
         <select name="" id="city-select">
-            <option value="">Choose a city...</option>
-            <option value="current">My current location</option>
+          <option value="">Choose a city...</option>
+          <option value="current">My current location</option>
         </select>
-        
-    </div>
-    <div class="cities">
-        <div class="city" id="los-angeles">
-            <h2><span >Los Angeles </span> <span class="time"><span class="period"></span></span></h2>
+      </div>
+      <main>
+        <section class="cities">
+          <div class="city" id="los-angeles">
+            <h2>
+              <span>Los Angeles </span>
+              <span class="time"><span class="period"></span></span>
+            </h2>
             <div class="date"></div>
-        </div>
-        <div class="city" id="sydney">
-            <h2><span >Sydney </span> <span class="time">1:48:15 <span class="period">AM</span></span></h2>
+          </div>
+          <div class="city" id="sydney">
+            <h2>
+              <span>Sydney </span>
+              <span class="time">1:48:15 <span class="period">AM</span></span>
+            </h2>
             <div class="date">August 15th 2022</div>
-        </div>
-        <div class="city" id="tokyo">
-            <h2><span >Tokyo </span> <span class="time">1:48:15 <span class="period"> AM</span></span></h2>
+          </div>
+          <div class="city" id="tokyo">
+            <h2>
+              <span>Tokyo </span>
+              <span class="time">1:48:15 <span class="period"> AM</span></span>
+            </h2>
             <div class="date">August 15th 2022</div>
-        </div>                
-
-    </div>
+          </div>
+        </section>
+        <aside class="details">
+          <div class="selected-city">
+            <p>Select a city to view the current time.</p>
+          </div>
+        </aside>
+      </main>
     </div>
 
     <footer>
-        This project is coded by Zeinab Jorkesh and is open sourced on <a href="https://github.com/zjorkesh?tab=repositories" target="_blank">GitHub</a>.
+      This project is coded by Zeinab Jorkesh and is open sourced on
+      <a href="https://github.com/zjorkesh?tab=repositories" target="_blank"
+        >GitHub</a
+      >.
     </footer>
-<script src="src/index.js"></script>
-</body>
+    <script src="src/index.js"></script>
+  </body>
 </html>
