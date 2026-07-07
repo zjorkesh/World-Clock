@@ -3,6 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="src/style.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
@@ -19,39 +25,89 @@
           <p>See the time around the world</p>
         </div>
       </header>
-      <div class="search">
-        <select name="" id="city-select">
-          <option value="">Choose a city...</option>
-          <option value="current">My current location</option>
-        </select>
-      </div>
+
       <main>
         <section class="cities">
-          <div class="city" id="los-angeles">
-            <h2>
-              <span>Los Angeles </span>
-              <span class="time"><span class="period"></span></span>
-            </h2>
-            <div class="date"></div>
-          </div>
-          <div class="city" id="sydney">
-            <h2>
-              <span>Sydney </span>
-              <span class="time">1:48:15 <span class="period">AM</span></span>
-            </h2>
-            <div class="date">August 15th 2022</div>
-          </div>
-          <div class="city" id="tokyo">
-            <h2>
-              <span>Tokyo </span>
-              <span class="time">1:48:15 <span class="period"> AM</span></span>
-            </h2>
-            <div class="date">August 15th 2022</div>
-          </div>
+          <article class="city" id="current">
+            <div class="city-info">
+              <h2>Tehran</h2>
+              <p class="country">Iran</p>
+            </div>
+
+            <div class="city-date">
+              <time class="date">July 7th 2026 </time>
+              <p class="day">Tuesday</p>
+            </div>
+
+            <div class="city-time">
+              <time class="time">3:43:24</time>
+              <span class="period"></span>
+              <p class="difference">your time</p>
+            </div>
+          </article>
+
+          <article class="city" id="los-angeles">
+            <div class="city-info">
+              <h2>Los Angeles</h2>
+              <p class="country">Ameraica</p>
+            </div>
+
+            <div class="city-date">
+              <time class="date"></time>
+              <p class="day">Tuesday</p>
+            </div>
+
+            <div class="city-time">
+              <time class="time"></time>
+              <span class="period"></span>
+              <p class="difference">hour behind</p>
+            </div>
+          </article>
+
+          <article class="city" id="sydney">
+            <div class="city-info">
+              <h2>Sydney</h2>
+              <p class="country">Australia</p>
+            </div>
+
+            <div class="city-date">
+              <time class="date"></time>
+              <p class="day">Tuesday</p>
+            </div>
+
+            <div class="city-time">
+              <time class="time"></time>
+              <span class="period"></span>
+              <p class="difference">hour ahead</p>
+            </div>
+          </article>
+          <article class="city" id="tokyo">
+            <div class="city-info">
+              <h2>Tokyo</h2>
+              <p class="country">Japan</p>
+            </div>
+
+            <div class="city-date">
+              <time class="date"></time>
+              <p class="day">Tuesday</p>
+            </div>
+
+            <div class="city-time">
+              <time class="time"></time>
+              <span class="period"></span>
+              <p class="difference">hour ahead</p>
+            </div>
+          </article>
         </section>
         <aside class="details">
           <div class="selected-city">
-            <p>Select a city to view the current time.</p>
+            <p>Choose a city</p>
+          </div>
+          <div class="search-box">
+            <select name="" id="city-select">
+              <option value="">🔍Search for a city...</option>
+              <option value="current">My current location</option>
+            </select>
           </div>
         </aside>
       </main>
