@@ -2,17 +2,24 @@ function updateCityTime(id, timeZone) {
   let cityElement = document.querySelector(id);
   let timeElement = cityElement.querySelector(".time");
   let dateElement = cityElement.querySelector(".date");
+  let dayElement = cityElement.querySelector(".day");
 
   let cityTime = moment().tz(timeZone);
 
   dateElement.innerHTML = cityTime.format("MMMM Do YYYY");
   timeElement.innerHTML = `${cityTime.format("h:mm:ss")} <span class="period">${cityTime.format("A")}</span>`;
+  dayElement.innerHTML = cityTime.format("dddd");
 }
 
 function updateTime() {
+  let currentTimeZone = moment.tz.guess();
+
+  updateCityTime("#current", currentTimeZone);
   updateCityTime("#los-angeles", "America/Los_Angeles");
   updateCityTime("#sydney", "Australia/Sydney");
   updateCityTime("#tokyo", "Asia/Tokyo");
+  let cityName = timeZone.split("/").pop().replaceAll("_", " ");
+  cityElement.querySelector("h2").textContent = cityName;
 }
 
 function updateCity(event) {
