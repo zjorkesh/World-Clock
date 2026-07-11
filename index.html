@@ -14,6 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.6.1/moment-timezone-with-data-1970-2030.min.js
 "></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>World Clock - Zeinab Jorkesh</title>
   </head>
 
@@ -26,12 +27,12 @@
         </div>
       </header>
 
-      <main>
+      <main class="layout">
         <section class="cities">
           <article class="city" id="current">
             <div class="city-info">
-              <h2>Tehran</h2>
-              <p class="country">Iran</p>
+              <h2></h2>
+              <p class="country"></p>
             </div>
 
             <div class="city-date">
@@ -100,14 +101,41 @@
           </article>
         </section>
         <aside class="details">
-          <div class="selected-city">
-            <p>Choose a city</p>
-          </div>
           <div class="search-box">
-            <select name="" id="city-select" size="19">
+            <select id="city-select" size="19">
               <option value="">🔍Search for a city...</option>
-              <option value="current">My current location</option>
             </select>
+          </div>
+          <div class="selected-city">
+            <h2 class="selected-name">Choose a city</h2>
+            <p class="selected-country"></p>
+
+            <time class="selected-time"></time>
+            <p class="selected-date"></p>
+            <p class="selected-day"></p>
+          </div>
+
+          <div class="time-difference">
+            <p class="difference-text"></p>
+          </div>
+
+          <div class="comparison">
+            <div>
+              <h3>Your Time</h3>
+              <p class="your-city"></p>
+              <time class="your-time"></time>
+            </div>
+
+            <div>
+              <h3>Time Difference</h3>
+              <p class="time-gap"></p>
+            </div>
+
+            <div>
+              <h3>Selected City Time</h3>
+              <p class="selected-city-name"></p>
+              <time class="selected-city-time"></time>
+            </div>
           </div>
         </aside>
       </main>

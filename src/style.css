@@ -195,3 +195,26 @@ footer {
 footer a {
     color: #AE98F0
 }
+
+
+.city-details {
+    color: white;
+}
+
+
+.selected-city,
+.time-difference,
+.comparison {
+    display: none;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 1.5fr 0.7fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.layout.selected {
+    grid-template-columns: 1fr 1.2fr;
+}
