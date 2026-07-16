@@ -1,7 +1,13 @@
+/* ====================
+   Global Variables
+==================== */
 let selectedTimeZone = null;
-let currentCoordinates = null;
+
 const apiKey = "8f8ba35f23t75fbc75d7do5424f8040b";
 
+/* ====================
+   DOM Elements
+==================== */
 let selectedNameElement = document.querySelector(".selected-name");
 let selectedTimeElement = document.querySelector(".selected-time");
 let selectedDateElement = document.querySelector(".selected-date");
@@ -16,10 +22,13 @@ let selectedCityTimeElement = document.querySelector(".selected-city-time");
 let selectedCountryElement = document.querySelector(".selected-country");
 
 let currentTimeElement = document.querySelector(".current-time");
-let timeDifferenceElement = document.querySelector(".time-diff");
 
 let comparisonText = document.querySelector(".comparison-text");
+let selectElement = document.querySelector("#city-select");
 
+/* ====================
+   Time Functions
+==================== */
 function updateCityTime(id, timeZone) {
   let cityElement = document.querySelector(id);
   let timeElement = cityElement.querySelector(".time");
@@ -33,7 +42,8 @@ function updateCityTime(id, timeZone) {
   let currentOffset = moment().utcOffset();
   let cityOffset = cityTime.utcOffset();
 
-  let difference = (cityOffset - currentOffset) / 60;
+  let differenceMinutes = cityOffset - currentOffset;
+  let difference = differenceMinutes / 60;
 
   if (id === "#current") {
     let currentCityName = timeZone.split("/").pop().replaceAll("_", " ");
@@ -41,14 +51,27 @@ function updateCityTime(id, timeZone) {
   }
 
   if (differenceElement) {
-    let hours = Math.abs(difference);
-    let hourText = hours === 1 ? "hour" : "hours";
+    let totalMinutes = Math.abs(differenceMinutes);
+
+    let hours = Math.floor(totalMinutes / 60);
+    let minutes = totalMinutes % 60;
+
+    let differenceText = "";
+
+    if (hours > 0) {
+      differenceText += `${hours} ${hours === 1 ? "hour" : "hours"}`;
+    }
+
+    if (minutes > 0) {
+      if (differenceText !== "") differenceText += " ";
+      differenceText += `${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+    }
 
     if (difference > 0) {
-      differenceElement.textContent = `${hours} ${hourText} ahead`;
+      differenceElement.textContent = `${differenceText} ahead`;
       differenceElement.className = "difference ahead";
     } else if (difference < 0) {
-      differenceElement.textContent = `${hours} ${hourText} behind`;
+      differenceElement.textContent = `${differenceText} behind`;
       differenceElement.className = "difference behind";
     } else {
       differenceElement.textContent = "Your Time";
@@ -56,88 +79,85 @@ function updateCityTime(id, timeZone) {
     }
   }
   dateElement.innerHTML = cityTime.format("MMMM Do YYYY");
-  timeElement.innerHTML = `${cityTime.format("h:mm:ss")} <span class="period">${cityTime.format("A")}</span>`;
+  timeElement.innerHTML = `${cityTime.format("hh:mm:ss")} <span class="period">${cityTime.format("A")}</span>`;
   dayElement.innerHTML = cityTime.format("dddd");
 }
 
 function updateTime() {
-  let currentTimeZone = moment.tz.guess();
-  updateCityTime("#current", currentTimeZone);
+  updateCityTime("#current", moment.tz.guess());
+  updateCityTime("#los-angeles", "America/Los_Angeles");
+  updateCityTime("#sydney", "Australia/Sydney");
+  updateCityTime("#tokyo", "Asia/Tokyo");
 
+  if (selectedTimeZone) {
+    updateSelectedCityDetails(selectedTimeZone);
+  }
+}
+
+function loadCurrentCountry() {
+  let currentTimeZone = moment.tz.guess();
   let cityName = currentTimeZone.split("/").pop().replaceAll("_", " ");
 
   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${cityName}&key=${apiKey}`;
 
   axios.get(apiUrl).then(showCountry);
-
-  updateCityTime("#los-angeles", "America/Los_Angeles");
-  updateCityTime("#sydney", "Australia/Sydney");
-  updateCityTime("#tokyo", "Asia/Tokyo");
-  if (selectedTimeZone) {
-    updateDetails(selectedTimeZone);
-  }
 }
 
-function updateDetails(timeZone) {
+/* ====================
+   Selected City
+==================== */
+function updateSelectedCityDetails(timeZone) {
   let cityName = timeZone.split("/").pop().replaceAll("_", " ");
   let cityTime = moment().tz(timeZone);
 
   selectedNameElement.innerHTML = cityName;
-  selectedTimeElement.innerHTML = cityTime.format("h:mm:ss A");
+  selectedTimeElement.innerHTML = `${cityTime.format("hh:mm:ss")} <span class="period">${cityTime.format("A")}</span>`;
   selectedDateElement.innerHTML = cityTime.format("MMMM Do YYYY");
   selectedDayElement.innerHTML = cityTime.format("dddd");
 
   let currentTime = moment();
 
-  currentTimeElement.textContent = currentTime.format("h:mm:ss A");
+  let currentCity = moment.tz.guess().split("/").pop().replaceAll("_", " ");
+
+  currentTimeElement.innerHTML = `${currentTime.format("hh:mm:ss")} <span class="current-period">${currentTime.format("A")}</span>`;
 
   selectedCityLabel.textContent = cityName;
-  selectedCityTimeElement.textContent = cityTime.format("h:mm:ss A");
+  selectedCityTimeElement.innerHTML = `${cityTime.format("hh:mm:ss")} <span class="current-period">${cityTime.format("A")}</span>`;
+
   let selectedOffset = cityTime.utcOffset();
   let currentOffset = currentTime.utcOffset();
 
-  let difference = (selectedOffset - currentOffset) / 60;
+  let differenceMinutes = selectedOffset - currentOffset;
+  let difference = differenceMinutes / 60;
+
+  let totalMinutes = Math.abs(differenceMinutes);
+
+  let hours = Math.floor(totalMinutes / 60);
+  let minutes = totalMinutes % 60;
+
+  let differenceText = "";
+
+  if (hours > 0) {
+    differenceText += `${hours} ${hours === 1 ? "hour" : "hours"}`;
+  }
+
+  if (minutes > 0) {
+    if (differenceText !== "") differenceText += " ";
+    differenceText += `${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+  }
 
   if (difference > 0) {
-    comparisonText.textContent = `${cityName} is ${difference} hours ahead of your location.`;
+    comparisonText.innerHTML = `${cityName} is <span class="ahead-text">${differenceText} ahead</span> of ${currentCity}.`;
   } else if (difference < 0) {
-    comparisonText.textContent = `${cityName} is ${Math.abs(difference)} hours behind your location.`;
+    comparisonText.innerHTML = `${cityName} is <span class="behind-text">${differenceText} behind</span> of ${currentCity}.`;
   } else {
-    comparisonText.textContent = `${cityName} is in the same time zone as your location.`;
+    comparisonText.textContent = `${cityName} is in the same time zone as ${currentCity}.`;
   }
 }
 
-function updateCity(event) {
-  let timeZone = event.target.value;
-  if (timeZone.length === 0) {
-    return;
-  }
-
-  let cityName = timeZone.split("/").pop().replaceAll("_", " ");
-
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${cityName}&key=${apiKey}`;
-
-  axios.get(apiUrl).then(showSelectedCountry);
-  selectedTimeZone = timeZone;
-
-  updateDetails(timeZone);
-  showCompactCities();
-
-  selectedCityBox.style.display = "block";
-  comparisonBox.style.display = "block";
-
-  setTimeout(() => {
-    selectedCityBox.classList.add("show");
-  }, 50);
-
-  setTimeout(() => {
-    comparisonBox.classList.add("show");
-  }, 200);
-  selectElement.selectedIndex = event.target.selectedIndex;
-  selectElement.size = 1;
-  document.querySelector(".layout").classList.add("selected");
-}
-
+/* ====================
+   UI & Utility Functions
+==================== */
 function showCompactCities() {
   let citiesList = document.querySelector("#cities-list");
 
@@ -159,7 +179,7 @@ function showCompactCities() {
     <article class="city compact" id="los-angeles">
       <div class="city-info">
         <h2>Los Angeles</h2>
-        <p class="country">America</p>
+        <p class="country">United States</p>
       </div>
 
       <div class="city-right">
@@ -202,29 +222,19 @@ function showCompactCities() {
   updateCityTime("#los-angeles", "America/Los_Angeles");
   updateCityTime("#sydney", "Australia/Sydney");
   updateCityTime("#tokyo", "Asia/Tokyo");
-}
-
-function updateSelectedCity(timeZone) {
-  let cityElement = document.querySelector("#selected-city");
-
-  if (cityElement) {
-    let timeElement = cityElement.querySelector(".time");
-    let dateElement = cityElement.querySelector(".date");
-    let dayElement = cityElement.querySelector(".day");
-
-    let cityTime = moment().tz(timeZone);
-
-    dateElement.innerHTML = cityTime.format("MMMM Do YYYY");
-    timeElement.innerHTML = `${cityTime.format("h:mm:ss")} <span class="period">${cityTime.format("A")}</span>`;
-    dayElement.innerHTML = cityTime.format("dddd");
-  }
+  loadCurrentCountry();
 }
 
 function displayTimeZone(timezone) {
+  let cityName = timezone.split("/").pop().replaceAll("_", " ");
+
   selectElement.innerHTML += `
-    <option value ="${timezone}">${timezone}</option>`;
+    <option value="${timezone}">${cityName}</option>`;
 }
 
+/* ====================
+   API Functions
+==================== */
 function showCountry(response) {
   let country = response.data.country;
 
@@ -234,12 +244,64 @@ function showCountry(response) {
 function showSelectedCountry(response) {
   selectedCountryElement.textContent = response.data.country;
 }
+/* ====================
+   Event Handler
+==================== */
+function updateCity(event) {
+  let timeZone = event.target.value;
+  if (timeZone.length === 0) {
+    return;
+  }
 
-let selectElement = document.querySelector("#city-select");
+  let cityName = timeZone.split("/").pop().replaceAll("_", " ");
+
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${cityName}&key=${apiKey}`;
+
+  axios.get(apiUrl).then(showSelectedCountry);
+
+  selectedTimeZone = timeZone;
+
+  updateSelectedCityDetails(timeZone);
+  showCompactCities();
+
+  selectedCityBox.style.display = "block";
+  comparisonBox.style.display = "block";
+
+  setTimeout(() => {
+    selectedCityBox.classList.add("show");
+  }, 50);
+
+  setTimeout(() => {
+    comparisonBox.classList.add("show");
+  }, 200);
+
+  selectElement.selectedIndex = event.target.selectedIndex;
+  selectElement.size = 1;
+
+  document.querySelector(".container").classList.add("selected");
+
+  document.querySelector(".layout").classList.add("selected");
+}
+
+/* ====================
+   Event Listeners
+==================== */
 selectElement.addEventListener("change", updateCity);
 
+/* ====================
+   Initialize
+==================== */
 let timezones = Intl.supportedValuesOf("timeZone");
+
+timezones.sort((a, b) => {
+  let cityA = a.split("/").pop().replaceAll("_", " ");
+  let cityB = b.split("/").pop().replaceAll("_", " ");
+
+  return cityA.localeCompare(cityB);
+});
+
 timezones.forEach(displayTimeZone);
 
+loadCurrentCountry();
 updateTime();
 setInterval(updateTime, 1000);

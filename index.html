@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Clock - Zeinab Jorkesh</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,18 +16,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.6.1/moment-timezone-with-data-1970-2030.min.js
 "></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>World Clock - Zeinab Jorkesh</title>
   </head>
 
   <body>
     <div class="container">
       <header>
         <div class="title">
-          <h1>World Clock 🕛</h1>
+          <h1>
+            World Clock
+            <img src="Image/alarm-clock.png" alt="clock" class="clock" />
+          </h1>
           <p>See the time around the world</p>
         </div>
       </header>
-
+      <img src="Image/world-map.png" alt="World Map" class="world-map" />
       <main class="layout">
         <section class="cities">
           <div id="cities-list">
@@ -42,16 +45,16 @@
               </div>
 
               <div class="city-time">
-                <time class="time">3:43:24</time>
+                <time class="time"></time>
                 <span class="period"></span>
-                <p class="difference">your time</p>
+                <p class="difference"></p>
               </div>
             </article>
 
             <article class="city" id="los-angeles">
               <div class="city-info">
                 <h2>Los Angeles</h2>
-                <p class="country">Ameraica</p>
+                <p class="country">United States</p>
               </div>
 
               <div class="city-date">
@@ -62,7 +65,7 @@
               <div class="city-time">
                 <time class="time"></time>
                 <span class="period"></span>
-                <p class="difference">hour behind</p>
+                <p class="difference"></p>
               </div>
             </article>
 
@@ -80,7 +83,7 @@
               <div class="city-time">
                 <time class="time"></time>
                 <span class="period"></span>
-                <p class="difference">hour ahead</p>
+                <p class="difference"></p>
               </div>
             </article>
             <article class="city" id="tokyo">
@@ -97,7 +100,7 @@
               <div class="city-time">
                 <time class="time"></time>
                 <span class="period"></span>
-                <p class="difference">hour ahead</p>
+                <p class="difference"></p>
               </div>
             </article>
           </div>
@@ -105,13 +108,11 @@
 
         <aside class="sidebar">
           <div class="search-box">
-            <label for="city-select">Search City</label>
-
-            <select id="city-select" size="19">
-              <option value="">🔍 Search a city...</option>
+            <p class="search-box-title">Choose a city</p>
+            <select id="city-select" size="14">
+              <option value="">🔍 Select a city...</option>
             </select>
           </div>
-
           <section class="selected-city">
             <h2 class="selected-name">Choose a city</h2>
 
@@ -126,8 +127,6 @@
           </section>
 
           <section class="time-comparison">
-            <h3>Time Comparison</h3>
-
             <p class="comparison-text"></p>
 
             <div class="comparison-row">
